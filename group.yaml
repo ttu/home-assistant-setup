@@ -1,0 +1,73 @@
+default_view:
+  view: yes
+  entities:
+    - group.weather
+    - group.temperature
+    - group.lights_etupiha    
+    - group.lights_kuisti    
+    - group.lights_takapiha    
+    - group.lights_terassi        
+    - group.media
+    - group.system
+    - group.configs
+
+weather:
+  name: Weather
+  entities:
+    - sensor.yr_temperature
+    - sensor.yr_wind_speed
+    - sensor.yr_condition
+    - sensor.yr_humidity
+
+temperature:
+  name: Temperature
+  entities:
+    - sensor.livingroom
+    - sensor.bedroom
+    - sensor.tyhuone
+
+lights_etupiha:
+  name: Lights
+  entities:
+    - light.piha_varasto
+    - light.piha_keitti
+    - light.piha_kuisti
+
+lights_kuisti:
+  name: Lights kuisti
+  entities:
+    - light.kuisti
+
+lights_takapiha:
+  name: Lights takapiha
+  entities:
+    - light.piha_keinu
+
+lights_terassi:
+  name: Lights terassi
+  entities:
+    - light.terassi_piha
+    - light.terassi_grilli
+
+media:
+  name: Media
+  entities:
+    - media_player.sony_tv
+    - media_player.openelec
+    - switch.nsa_325
+    - media_player.chromecast0675
+
+system:
+  name: System
+  entities:
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+    - sensor.speedtest_ping
+    - sensor.cpu_use
+    - sensor.ram_use
+
+configs:
+  name: Need configuration
+  entities:
+    - configurator.philips_hue
+    - configurator.sony_tv

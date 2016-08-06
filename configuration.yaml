@@ -1,0 +1,137 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
+  # # Impacts weather/sunrise data
+  elevation: !secret elevation
+  # C for Celsius, F for Fahrenheit
+  temperature_unit: C
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Helsinki
+
+http:
+  api_password: !secret api_password
+
+# Track the sun
+sun:
+
+# Discover some devices automatically
+discovery:
+
+light:
+  platform: hue
+  host: 192.168.2.110
+  allow_unreachable: true
+  # filename: my_hue_hub_token.conf
+
+ifttt:
+  key: !secret ifttt_key
+
+media_player:
+  - platform: braviatv
+    host: 192.168.2.84
+    name: Sony TV
+
+  # - platform: yamaha
+  #   name: 'Yamaha'
+
+  - platform: cast
+    name: Chromecast
+    host: 192.168.2.11
+
+  - platform: kodi
+    host: http://192.168.2.248
+    port: 80
+    name: OpenELEC
+    user: kodi
+    password: !secret kodi_password
+    turn_off_action: shutdown
+  
+device_tracker:
+  platform: asuswrt
+  host: 192.168.2.1
+  protocol: telnet
+  mode: router
+  username: !secret asuswrt_username
+  password: !secret asuswrt_password
+
+# View all events in a logbook
+logbook:
+
+# Enables support for tracking state changes over time.
+history:
+
+# Enables the frontend
+frontend:
+
+# Show links to resources in log and frontend
+# introduction:
+
+# Allows you to issue voice commands from the frontend
+# conversation:
+
+# Checks for available updates
+updater:
+
+sensor:
+  - platform: systemmonitor
+    resources:
+      - type: memory_free
+      - type: memory_use_percent
+      - type: processor_use
+      - type: since_last_boot
+
+  - platform: fixer
+    name: EUR/USD
+    base: EUR
+    target: USD
+
+  - platform: rest
+    resource: http://dummy-sensors.azurewebsites.net/sensor/abba5
+    value_template: '{{ value_json.data | round(2) }}'
+    method: GET
+    name: Livingroom
+    unit_of_measurement: "°C"
+
+  - platform: rest
+    resource: http://dummy-sensors.azurewebsites.net/sensor/acdc1
+    value_template: '{{ value_json.data | round(2) }}'
+    method: GET
+    name: Bedroom
+    unit_of_measurement: "°C"
+
+  - platform: rest
+    resource: http://127.0.0.1:8080/data
+    value_template: '{{ value_json.celsius | round(2) }}'
+    method: GET
+    name: Työhuone
+    unit_of_measurement: "°C"
+
+  - platform: yr
+    monitored_conditions:
+      - temperature
+      - precipitation
+      - windSpeed
+      - humidity
+
+  - platform: speedtest
+    minute: 30
+    hour:
+      - 0
+      - 6
+      - 12
+      - 18
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+
+switch:
+  platform: wake_on_lan
+  mac_address: "5c:f4:ab:e7:cd:70"
+  name: "NSA 325"
+  host: "192.168.2.209"
+
+group: !include group.yaml
